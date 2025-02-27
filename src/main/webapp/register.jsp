@@ -115,14 +115,14 @@
 
     <div class="form-container">
         <h3 class="text-center mb-4">Register</h3>
-        <form action="RegisterServlet" method="post">
+        <form action="register" method="post">
             <div>
                 <label class="form-label" for="name">Full Name:</label>
-                <input class="form-control" type="text" id="name" name="name" required>
+                <input class="form-control" type="text" id="name" name="full_name" required>
             </div>
             <div>
-                <label class="form-label" for="username">Username:</label>
-                <input class="form-control" type="text" id="username" name="username" required>
+                <label class="form-label" for="username">Role:</label>
+                <input class="form-control" type="text" id="username" name="role" required>
             </div>
             <div>
                 <label class="form-label" for="email">Email:</label>
@@ -167,7 +167,7 @@
                 <input class="form-control" type="password" id="confirm_password" name="confirm_password" required>
             </div>
             <div class="full-width">
-                <label class="form-label" for="address">Address:</label>
+                <label class="form-label" for="address">Address:</label>user
                 <input class="form-control" type="text" id="address" name="address" required>
             </div>
             <button class="btn btn-danger btn-submit" type="submit">Register</button>
