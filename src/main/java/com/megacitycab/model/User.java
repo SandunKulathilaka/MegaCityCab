@@ -1,4 +1,4 @@
-package com.shopme.megacitycab.model;
+package com.megacitycab.model;
 
 public class User {
 

@@ -97,10 +97,11 @@
 <div class="main-section">
     <div class="form-container">
         <h3 class="text-center mb-4">Login</h3>
-        <form action="LoginServlet" method="post">
+        <form action="user" method="post">
+            <input type="hidden" name="action" value="login">
             <div class="mb-3">
-                <label class="form-label" for="username">Username:</label>
-                <input class="form-control" type="text" id="username" name="username" required>
+                <label class="form-label" for="email">Username:</label>
+                <input class="form-control" type="text" id="email" name="email" required>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="password">Password:</label>

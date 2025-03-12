@@ -115,14 +115,19 @@
 
     <div class="form-container">
         <h3 class="text-center mb-4">Register</h3>
-        <form action="register" method="post">
+        <form action="user" method="post">
+            <input type="hidden" name="action" value="register">
             <div>
                 <label class="form-label" for="name">Full Name:</label>
                 <input class="form-control" type="text" id="name" name="full_name" required>
             </div>
             <div>
-                <label class="form-label" for="username">Role:</label>
-                <input class="form-control" type="text" id="username" name="role" required>
+                <label class="form-label">Role:</label>
+                <select name="role" class="form-control">
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="Customer">Customer</option>
+                    <option value="Driver">Driver</option>
+                </select>
             </div>
             <div>
                 <label class="form-label" for="email">Email:</label>

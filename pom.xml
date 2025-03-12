@@ -39,11 +39,7 @@
       </dependency>
 
       <!-- MySQL Connector (For Database Connection) -->
-      <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <version>8.0.33</version>
-      </dependency>
+      
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
@@ -53,10 +49,11 @@
 
   <build>
     <plugins>
-<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.4.0</version>
-      </plugin>    </plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.4.0</version>
+        </plugin>
+    </plugins>
   </build>
 </project>

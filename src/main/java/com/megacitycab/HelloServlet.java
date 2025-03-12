@@ -1,4 +1,4 @@
-package com.shopme.megacitycab;
+package com.megacitycab;
 
 import java.io.*;
 import jakarta.servlet.http.*;
