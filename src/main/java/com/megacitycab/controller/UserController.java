@@ -74,11 +74,11 @@ public class UserController extends HttpServlet {
             // Login successful
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            resp.sendRedirect("admin/dashboard.jsp"); // Redirect to dashboard or home page
+            resp.sendRedirect("driver/dashboard.jsp"); // Redirect to dashboard or home page
         } else {
             // Login failed
             req.setAttribute("error", "Invalid email or password.");
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
+            req.getRequestDispatcher("driver/dashboard.jsp").forward(req, resp);
         }
     }
 
