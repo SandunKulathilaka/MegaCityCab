@@ -1,61 +1,94 @@
 package com.megacitycab.dao;
 
-import com.megacitycab.config.DbConnection;
 import com.megacitycab.model.Booking;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookingDAO {
+    private Connection connection;
 
-    // Updated SQL query to join Bookings, Users (for customer), and Users (for driver) tables
-    private static final String SELECT_ALL_BOOKINGS =
-            "SELECT b.booking_id, " +
-                    "       cu.full_name AS customer_name, " +
-                    "       du.full_name AS driver_name, " +
-                    "       b.pickup_location, " +
-                    "       b.dropoff_location, " +
-                    "       b.fare, " +
-                    "       b.status AS booking_status, " +
-                    "       b.pickup_time AS booking_time " +
-                    "FROM Bookings b " +
-                    "JOIN Users cu ON b.customer_id = cu.user_id " + // Join for customer name
-                    "LEFT JOIN Drivers d ON b.driver_id = d.driver_id " + // Join for driver details
-                    "LEFT JOIN Users du ON d.user_id = du.user_id"; // Join for driver name
+    public BookingDAO(Connection connection) {
+        this.connection = connection;
+    }
 
-    // Use DbConnection to get the connection
-    protected Connection getConnection() {
-        try {
-            return DbConnection.getConnection(); // Use the DbConnection class to get the connection
+    // Add a new booking
+    public boolean addBooking(Booking booking) {
+        String sql = "INSERT INTO bookings (customer_username, customer_email, pickup_location, dropoff_location, distance, fare, ride_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, booking.getCustomerUsername());
+            stmt.setString(2, booking.getCustomerEmail());
+            stmt.setString(3, booking.getPickupLocation());
+            stmt.setString(4, booking.getDropoffLocation());
+            stmt.setDouble(5, booking.getDistance());
+            stmt.setDouble(6, booking.getFare());
+            stmt.setTimestamp(7, new Timestamp(booking.getRideDate().getTime()));
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Retrieve all bookings
+    public List<Booking> getAllBookings() {
+        List<Booking> bookings = new ArrayList<>();
+        String sql = "SELECT * FROM bookings";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                bookings.add(mapResultSetToBooking(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookings;
+    }
+
+    // Retrieve a single booking by ID
+    public Booking getBookingById(int id) {
+        String sql = "SELECT * FROM bookings WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToBooking(rs);
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    // Fetch all bookings
-    public List<Booking> getAllBookings() {
-        List<Booking> bookings = new ArrayList<>();
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_ALL_BOOKINGS);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                bookings.add(new Booking(
-                        rs.getInt("booking_id"),
-                        rs.getString("customer_name"),
-                        rs.getString("driver_name"),
-                        rs.getString("pickup_location"),
-                        rs.getString("dropoff_location"),
-                        rs.getDouble("fare"),
-                        rs.getString("booking_status"),
-                        rs.getTimestamp("booking_time")
-                ));
-            }
+    // Update booking status
+    public boolean updateBookingStatus(int id, String status) {
+        String sql = "UPDATE bookings SET status = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, status);
+            stmt.setInt(2, id);
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return bookings;
+        return false;
+    }
+
+    // Helper method to map ResultSet to Booking object
+    private Booking mapResultSetToBooking(ResultSet rs) throws SQLException {
+        return new Booking(
+                rs.getInt("id"),
+                rs.getString("customer_username"),
+                rs.getString("customer_email"),
+                rs.getString("pickup_location"),
+                rs.getString("dropoff_location"),
+                rs.getDouble("distance"),
+                rs.getDouble("fare"),
+                rs.getTimestamp("ride_date"),
+                rs.getString("driver_name"),
+                rs.getString("driver_email"),
+                rs.getString("status"),
+                rs.getTimestamp("created_at")
+        );
     }
 }

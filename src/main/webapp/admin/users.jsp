@@ -42,16 +42,16 @@
                         <a class="nav-link text-white" href="dashboard.jsp">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white active" href="users.jsp">Users</a>
+                        <a class="nav-link text-white" href="users.jsp">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Drivers</a>
+                        <a class="nav-link text-white" href="driver.jsp">Drivers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Earnings</a>
+                        <a class="nav-link text-white" href="invoice.jsp">Earnings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Ride History</a>
+                        <a class="nav-link text-white" href="car.jsp">Manage Cars</a>
                     </li>
                 </ul>
             </div>

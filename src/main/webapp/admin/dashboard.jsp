@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List, com.megacitycab.model.Booking" %>
 <%@ page import="com.megacitycab.dao.BookingDAO" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
 
 <%
-    // Fetch booking data from database
-    BookingDAO bookingDAO = new BookingDAO();
+    // First get a database connection (you might have a connection pool or utility class for this)
+    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/MegaCityCab?useSSL=false&allowPublicKeyRetrieval=true","root","");
+
+// Then create BookingDAO with the connection
+    BookingDAO bookingDAO = new BookingDAO(connection);
     List<Booking> bookingList = bookingDAO.getAllBookings();
     request.setAttribute("bookingList", bookingList);
+
+// Don't forget to close the connection when done (better to use try-with-resources)
+    connection.close();
 %>
 
 <!DOCTYPE html>
@@ -29,7 +37,7 @@
                 <h2 class="text-center mb-4">MegaCityCab Admin</h2>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Dashboard</a>
+                        <a class="nav-link text-white" href="dashboard.jsp">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="users.jsp">Users</a>
@@ -42,6 +50,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="car.jsp">Manage Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/driver/logout.jsp">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -96,6 +107,7 @@
                         <th>ID</th>
                         <th>Customer</th>
                         <th>Driver</th>
+                        <th>Driver Mail</th>
                         <th>Pickup</th>
                         <th>Dropoff</th>
                         <th>Fare ($)</th>
@@ -110,14 +122,15 @@
                                 Booking booking = bookingList.get(i);
                     %>
                     <tr>
-                        <td><%= booking.getBookingId() %></td>
-                        <td><%= booking.getCustomerName() %></td>
+                        <td><%= booking.getId() %></td>
+                        <td><%= booking.getCustomerUsername() %></td>
                         <td><%= booking.getDriverName() %></td>
+                        <td><%= booking.getDriverEmail() %></td>
                         <td><%= booking.getPickupLocation() %></td>
                         <td><%= booking.getDropoffLocation() %></td>
                         <td><%= booking.getFare() %></td>
-                        <td><span class="badge bg-<%= booking.getBookingStatus().equals("Completed") ? "success" : "warning" %>"><%= booking.getBookingStatus() %></span></td>
-                        <td><%= booking.getBookingTime() %></td>
+                        <td><span class="badge bg-<%= booking.getStatus().equals("Completed") ? "success" : "warning" %>"><%= booking.getStatus() %></span></td>
+                        <td><%= booking.getCreatedAt() %></td>
                     </tr>
                     <%
                         }

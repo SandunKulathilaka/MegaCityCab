@@ -51,10 +51,10 @@ public class InvoiceController extends HttpServlet {
 
     private void addInvoice(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            int bookingId = Integer.parseInt(req.getParameter("booking_id"));
-            int customerId = Integer.parseInt(req.getParameter("customer_id"));
-            int driverId = Integer.parseInt(req.getParameter("driver_id"));
-            double totalAmount = Double.parseDouble(req.getParameter("total_amount"));
+            int bookingId = Integer.parseInt(req.getParameter("bookingId"));
+            int customerId = Integer.parseInt(req.getParameter("customerId"));
+            int driverId = Integer.parseInt(req.getParameter("driverId"));
+            double totalAmount = Double.parseDouble(req.getParameter("totalAmount"));
 
             Invoice invoice = new Invoice(0, bookingId, customerId, driverId, totalAmount, null);
 
@@ -73,16 +73,17 @@ public class InvoiceController extends HttpServlet {
             logger.log(Level.SEVERE, "An error occurred while adding invoice", e);
             req.getSession().setAttribute("error", "An error occurred while adding invoice.");
         }
-        resp.sendRedirect("admin/invoices.jsp"); // Redirect to invoice management page
+        resp.sendRedirect("admin/invoice.jsp"); // Redirect to invoice management page
     }
 
     private void updateInvoice(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            int invoiceId = Integer.parseInt(req.getParameter("invoice_id"));
-            int bookingId = Integer.parseInt(req.getParameter("booking_id"));
-            int customerId = Integer.parseInt(req.getParameter("customer_id"));
-            int driverId = Integer.parseInt(req.getParameter("driver_id"));
-            double totalAmount = Double.parseDouble(req.getParameter("total_amount"));
+            int invoiceId = Integer.parseInt(req.getParameter("invoiceId"));
+            int bookingId = Integer.parseInt(req.getParameter("bookingId"));
+            int customerId = Integer.parseInt(req.getParameter("customerId"));
+            int driverId = Integer.parseInt(req.getParameter("driverId"));
+            double totalAmount = Double.parseDouble(req.getParameter("totalAmount"));
+            System.out.println(invoiceId+ bookingId+customerId+driverId+totalAmount);
 
             Invoice invoice = new Invoice(invoiceId, bookingId, customerId, driverId, totalAmount, null);
 
@@ -91,6 +92,7 @@ public class InvoiceController extends HttpServlet {
 
             if (isUpdated) {
                 req.getSession().setAttribute("success", "Invoice updated successfully.");
+                System.out.println("Invoice updated successfully.");
             } else {
                 req.getSession().setAttribute("error", "Failed to update invoice.");
             }
@@ -101,12 +103,12 @@ public class InvoiceController extends HttpServlet {
             logger.log(Level.SEVERE, "An error occurred while updating invoice", e);
             req.getSession().setAttribute("error", "An error occurred while updating invoice.");
         }
-        resp.sendRedirect("admin/invoices.jsp"); // Redirect to invoice management page
+        resp.sendRedirect("/admin/invoice.jsp"); // Redirect to invoice management page
     }
 
     private void deleteInvoice(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            int invoiceId = Integer.parseInt(req.getParameter("invoice_id"));
+            int invoiceId = Integer.parseInt(req.getParameter("invoiceId"));
 
             InvoiceDAO invoiceDAO = new InvoiceDAO();
             boolean isDeleted = invoiceDAO.deleteInvoice(invoiceId);
@@ -123,6 +125,6 @@ public class InvoiceController extends HttpServlet {
             logger.log(Level.SEVERE, "An error occurred while deleting invoice", e);
             req.getSession().setAttribute("error", "An error occurred while deleting invoice.");
         }
-        resp.sendRedirect("admin/invoices.jsp"); // Redirect to invoice management page
+        resp.sendRedirect("admin/invoice.jsp"); // Redirect to invoice management page
     }
 }

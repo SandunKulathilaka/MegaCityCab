@@ -60,7 +60,7 @@ public class UserController extends HttpServlet {
         userDAO.addUser(user);
 
         req.getSession().setAttribute("user", user);
-        resp.sendRedirect("user.jsp"); // Redirect to a user page
+        resp.sendRedirect("index.jsp"); // Redirect to a user page
     }
 
     private void loginUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -74,11 +74,11 @@ public class UserController extends HttpServlet {
             // Login successful
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            resp.sendRedirect("driver/dashboard.jsp"); // Redirect to dashboard or home page
+            resp.sendRedirect("index.jsp"); // Redirect to dashboard or home page
         } else {
             // Login failed
             req.setAttribute("error", "Invalid email or password.");
-            req.getRequestDispatcher("driver/dashboard.jsp").forward(req, resp);
+            req.getRequestDispatcher("driver/error.jsp").forward(req, resp);
         }
     }
 

@@ -24,19 +24,19 @@
                 <h2 class="text-center mb-4">MegaCityCab Admin</h2>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="adminDashboard.jsp">Dashboard</a>
+                        <a class="nav-link text-white" href="dashboard.jsp">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="users.jsp">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white active" href="manageCars.jsp">Manage Cars</a>
+                        <a class="nav-link text-white" href="driver.jsp">Drivers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="invoice.jsp">Earnings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Manage Cars</a>
+                        <a class="nav-link text-white" href="car.jsp">Manage Cars</a>
                     </li>
                 </ul>
             </div>
